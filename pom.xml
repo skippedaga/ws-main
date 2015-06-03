@@ -18,20 +18,46 @@
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-simple</artifactId>
-			<version>1.7.12</version>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.7.7</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.camel</groupId>
 			<artifactId>camel-test</artifactId>
 			<version>2.15.2</version>
+			<scope>test</scope>
 		</dependency>
-
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-core</artifactId>
+			<version>2.15.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-jaxb</artifactId>
+			<version>2.15.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-http</artifactId>
+			<version>2.15.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-soap</artifactId>
+			<version>2.15.2</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.xml.bind</groupId>
+			<artifactId>jaxb-osgi</artifactId>
+			<version>2.2.7</version>
+		</dependency>
 		<dependency>
 			<groupId>org.jboss.spec</groupId>
 			<artifactId>jboss-javaee-6.0</artifactId>
 			<version>1.0.0.Final</version>
 			<type>pom</type>
+			<scope>test</scope>
 		</dependency>
 
 
@@ -42,4 +68,80 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.jvnet.jax-ws-commons</groupId>
+				<artifactId>jaxws-maven-plugin</artifactId>
+				<version>2.3</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>wsimport</goal>
+						</goals>
+						<configuration>
+							<packageName>com.ws.client</packageName>
+							<wsdlUrls>
+								<wsdlUrl>http://localhost:9000/MyService?wsdl</wsdlUrl>
+							</wsdlUrls>
+							<wsdlLocation>http://localhost:9000/MyService?wsdl</wsdlLocation>
+							<!-- staleFile>${project.build.directory}/jaxws/stale/WSInternetBankingSoapHttpPort.stale 
+								</staleFile> -->
+						</configuration>
+						<phase>generate-sources</phase>
+					</execution>
+				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>javax.xml</groupId>
+						<artifactId>webservices-api</artifactId>
+						<version>2.0</version>
+					</dependency>
+				</dependencies>
+				<configuration>
+					<!-- sourceDestDir>${project.build.directory}/generated-sources</sourceDestDir -->
+					<sourceDestDir>src/test/java</sourceDestDir>
+					<!-- xnocompile>true</xnocompile> <verbose>true</verbose> <extension>true</extension> 
+						<catalog>${basedir}/src/jax-ws-catalog.xml</catalog> -->
+				</configuration>
+			</plugin>
+		</plugins>
+		<pluginManagement>
+			<plugins>
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											org.jvnet.jax-ws-commons
+										</groupId>
+										<artifactId>
+											jaxws-maven-plugin
+										</artifactId>
+										<versionRange>
+											[2.3,)
+										</versionRange>
+										<goals>
+											<goal>wsimport</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
 </project>
