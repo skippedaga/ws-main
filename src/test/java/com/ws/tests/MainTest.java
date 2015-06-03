@@ -86,7 +86,7 @@ public class MainTest extends CamelTestSupport {
 									+ simple("${in.body}").getText())
 						.to("mock:result");
 
-				from("activemq:queue:Outcome").to("").to("mock:result");
+				from("activemq:queue:Outcome").to("mock:result");
 			}
 		};
 	}
